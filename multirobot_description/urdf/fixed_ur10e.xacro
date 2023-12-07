@@ -15,8 +15,8 @@
   <xacro:include filename="$(find multirobot_description)/urdf/ROS/fixed_arm_ros_control.xacro" />
 
   <!-- Include UR10e Arm -->
-  <xacro:property name="arm_position_x" value="-0.45"/>
-  <xacro:property name="arm_position_y" value="0.25"/>
+  <xacro:property name="arm_position_x" value="-0.25"/>
+  <xacro:property name="arm_position_y" value="0.45"/>
   <xacro:property name="arm_position_z" value="0.87"/>
   <xacro:property name="arm_orientation_r" value="0"/>
   <xacro:property name="arm_orientation_p" value="0"/>
