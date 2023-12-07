@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="fixed_robot_joint_pub">		
+<xacro:macro name="fixed_arm_joint_pub">
+
+  <gazebo>
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <robotNamespace>/fixed</robotNamespace>
+      <jointName>
+        shoulder_pan_joint,
+        shoulder_lift_joint,
+        elbow_joint,
+        wrist_1_joint,
+        wrist_2_joint,
+        wrist_3_joint
+      </jointName>
+      <updateRate>100.0</updateRate>
+      <alwaysOn>true</alwaysOn>
+    </plugin>
+  </gazebo>
+ 
+</xacro:macro>
+</robot>
