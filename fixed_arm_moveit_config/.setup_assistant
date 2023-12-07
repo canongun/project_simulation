@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: multirobot_description
+    relative_path: urdf/fixed_ur10e.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/multirobot_fixed.srdf
+  CONFIG:
+    author_name: can
+    author_email: can.ongun@tuhh.de
+    generated_timestamp: 1701980427
