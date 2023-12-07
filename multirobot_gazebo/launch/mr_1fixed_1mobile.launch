@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Simulation Configuration -->
+  <arg name="debug" default="false"/>
+  <arg name="paused" default="false"/>
+  <arg name="headless" default="false"/>
+  <arg name="gui" default="true"/>
+
+  <!-- Common xacro path -->
+  <arg name="robot_xacro_path" default="$(find multirobot_description)/urdf/"/>
+
+  <!-- Fixed Robot configuration -->
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot_fixed)"/>
+  <arg name="prefix" default=""/>
+  <arg name="robot_model" default="$(optenv ROBOT_MODEL multirobot_fixed)"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO fixed_ur10e.xacro)"/>
+  <arg name="x_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_X 0)"/>
+  <arg name="y_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 0)"/>
+  <arg name="z_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Z 0)"/>
+  <arg name="yaw_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_YAW 0.0)"/>
+  <arg name="robot_fixed" default="$(optenv ROBOT_NAME fixed)"/>
+
+  <!-- Mobile Robot configuration -->
+  <arg name="robot_id_mobile" default="$(optenv ROBOT_ID robot_mobile)"/>
+  <arg name="prefix_mobile" default="mobile_"/>
+  <arg name="robot_model_mobile" default="$(optenv ROBOT_MODEL multirobot_mobile)"/>
+  <arg name="robot_xacro_mobile" default="$(optenv ROBOT_XACRO mobile_ur10e.xacro)"/>
+  <arg name="x_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_X -0.45)"/>
+  <arg name="y_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 1.050)"/>
+  <arg name="z_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Z 0.4)"/>
+  <arg name="yaw_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_YAW 0.0)"/>
+  <arg name="robot_mobile" default="$(optenv ROBOT_NAME mobile)"/>
+
+  <!-- UR Robot Arm Fixed configuration-->
+  <arg name="arm_prefix" default="$(arg prefix)arm"/>
+  <arg name="arm_manufacturer" default="$(optenv ROBOT_ARM_MANUFACTURER ur)"/>
+  <arg name="arm_model" default="ur10e"/>
+  <arg name="load_kinematics_file" default="true"/>
+
+  <!-- Remapping the topic names -->
+  <remap from="/innok_heros_velocity_controller/cmd_vel" to="/robot/cmd_vel"/>
+  <remap from="/innok_heros_velocity_controller/odom" to="/robot/odom"/>
+
+  <!-- Launch gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find gazebo_ros_link_attacher)/worlds/test_attacher.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="paused" value="$(arg paused)" />
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>    
+
+  <group ns="fixed">
+    <!-- Fixed Robot Arm Parameter Initialization -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg robot_xacro_path)$(arg robot_xacro)'
+      prefix:=$(arg prefix) "/>
+
+    <!-- Spawn Fixed Robot Arm model into gazebo -->
+    <node name="urdf_spawner_robot_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-x $(arg x_init_pose) -y $(arg y_init_pose) -z $(arg z_init_pose) -Y $(arg yaw_init_pose) -urdf -param robot_description -model $(arg robot_id)" />
+    <!-- publish tfs through the robot_state_publisher -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <rosparam file="$(find multirobot_control)/config/ur_control_fixed.yaml" command="load" subst_value="true"/>
+
+    <node name="robot_arm_trajectory_controller" pkg="controller_manager" type="controller_manager" output="screen" 
+    args="
+        spawn
+        scaled_pos_traj_controller
+    "
+    />
+
+    <node name="joint_state_publisher_arm" pkg="joint_state_publisher" type="joint_state_publisher" >   
+      <rosparam param="source_list">["joint_states", "/joint_states"]</rosparam> 
+    </node> 
+
+  </group>
+
+  <!-- Mobile Robot Arm Parameter Initialization -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg robot_xacro_path)$(arg robot_xacro_mobile)' 
+              prefix:=$(arg prefix_mobile) "/>
+  
+  <!-- Spawn Mobile Robot Arm model into gazebo -->
+  <node name="urdf_spawner_robot_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-x $(arg x_init_pose_mobile) -y $(arg y_init_pose_mobile) -z $(arg z_init_pose_mobile) -Y $(arg yaw_init_pose_mobile) -urdf -param robot_description -model $(arg robot_id_mobile)" />
+  
+  <!-- publish tfs through the robot_state_publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <rosparam file="$(find multirobot_control)/config/ur_control_mobile.yaml" command="load" subst_value="true"/>
+
+  
+  <node name="robot_arm_trajectory_controller" pkg="controller_manager" type="controller_manager" output="screen" 
+    args="
+        spawn
+        scaled_pos_traj_controller
+    "
+    />
+  
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >   
+    <rosparam param="source_list">["joint_states", "/joint_states"]</rosparam> 
+  </node>
+
+   
+  
+  
+
+
+</launch>
