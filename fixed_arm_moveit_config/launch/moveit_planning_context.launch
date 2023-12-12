@@ -1,4 +1,6 @@
 <launch>
+
+<group ns="fixed">
   <arg name="sim" default="false" />
   <arg name="debug" default="false" />
 
@@ -9,4 +11,6 @@
   <include file="$(find fixed_arm_moveit_config)/launch/move_group.launch">
     <arg name="debug" default="$(arg debug)" />
   </include>
+</group>
+
 </launch>
