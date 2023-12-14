@@ -31,7 +31,7 @@
   <xacro:property name="arm_orientation_p" value="0"/>
   <xacro:property name="arm_orientation_y" value="0"/>
 
-  <xacro:arg name="prefix" default="" />
+  <xacro:arg name="prefix" default="mobile_" />
 
   <xacro:macro name="multirobot_mobile" params="prefix">
 
