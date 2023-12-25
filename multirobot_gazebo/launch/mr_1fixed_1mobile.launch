@@ -27,7 +27,7 @@
   <arg name="robot_model_mobile" default="$(optenv ROBOT_MODEL multirobot_mobile)"/>
   <arg name="robot_xacro_mobile" default="$(optenv ROBOT_XACRO mobile_ur10e.xacro)"/>
   <arg name="x_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_X -0.45)"/>
-  <arg name="y_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 1.050)"/>
+  <arg name="y_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 1.5)"/>
   <arg name="z_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Z 0.4)"/>
   <arg name="yaw_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_YAW 0.0)"/>
   <arg name="robot_mobile" default="$(optenv ROBOT_NAME mobile)"/>
