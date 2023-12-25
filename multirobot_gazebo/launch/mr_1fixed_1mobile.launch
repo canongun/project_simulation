@@ -12,7 +12,7 @@
 
   <!-- Fixed Robot configuration -->
   <arg name="robot_id" default="$(optenv ROBOT_ID robot_fixed)"/>
-  <arg name="prefix" default=""/>
+  <arg name="prefix" default="fixed_"/>
   <arg name="robot_model" default="$(optenv ROBOT_MODEL multirobot_fixed)"/>
   <arg name="robot_xacro" default="$(optenv ROBOT_XACRO fixed_ur10e.xacro)"/>
   <arg name="x_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_X 0)"/>

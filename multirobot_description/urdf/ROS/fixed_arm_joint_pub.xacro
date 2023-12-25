@@ -7,12 +7,12 @@
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
       <robotNamespace>/fixed</robotNamespace>
       <jointName>
-        shoulder_pan_joint,
-        shoulder_lift_joint,
-        elbow_joint,
-        wrist_1_joint,
-        wrist_2_joint,
-        wrist_3_joint
+        fixed_shoulder_pan_joint,
+        fixed_shoulder_lift_joint,
+        fixed_elbow_joint,
+        fixed_wrist_1_joint,
+        fixed_wrist_2_joint,
+        fixed_wrist_3_joint
       </jointName>
       <updateRate>100.0</updateRate>
       <alwaysOn>true</alwaysOn>

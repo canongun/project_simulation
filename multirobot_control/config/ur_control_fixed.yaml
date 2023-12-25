@@ -1,12 +1,12 @@
 scaled_pos_traj_controller:
   type: position_controllers/JointTrajectoryController
   joints:
-    - shoulder_pan_joint
-    - shoulder_lift_joint
-    - elbow_joint
-    - wrist_1_joint
-    - wrist_2_joint
-    - wrist_3_joint
+    - fixed_shoulder_pan_joint
+    - fixed_shoulder_lift_joint
+    - fixed_elbow_joint
+    - fixed_wrist_1_joint
+    - fixed_wrist_2_joint
+    - fixed_wrist_3_joint
   constraints:
     goal_time: 0.6
     stopped_velocity_tolerance: 0.05

@@ -2,12 +2,12 @@ controller_list:
   - name: fake_fixed_arm_controller
     type: $(arg fake_execution_type)
     joints:
-      - shoulder_pan_joint
-      - shoulder_lift_joint
-      - elbow_joint
-      - wrist_1_joint
-      - wrist_2_joint
-      - wrist_3_joint
+      - fixed_shoulder_pan_joint
+      - fixed_shoulder_lift_joint
+      - fixed_elbow_joint
+      - fixed_wrist_1_joint
+      - fixed_wrist_2_joint
+      - fixed_wrist_3_joint
 initial:  # Define initial robot poses per group
   - group: fixed_arm
     pose: operation_ready
