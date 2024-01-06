@@ -19,6 +19,9 @@
   <!-- Innok Heros already publishing ros_control plugin -->
   <!-- <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_ros_control.xacro" /> -->
 
+  <!-- Ground Truth plugin -->
+  <xacro:include filename="$(find multirobot_description)/urdf/sensors/ground_truth.xacro" />
+
   <!-- Innok Base -->
   <xacro:innok_heros front_kind='$(arg front_kind)' wheel_kind='$(arg wheel_kind)'/>
     <update_rate>1</update_rate>   
