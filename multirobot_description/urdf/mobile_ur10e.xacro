@@ -15,6 +15,9 @@
 
   <!-- ROS plug-ins -->
   <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_joint_pub.xacro" />
+
+  <!-- Internal Measurement Unit -->
+  <xacro:include filename="$(find multirobot_description)/urdf/sensors/internal_measurement_unit.urdf.xacro"/>
   
   <!-- Innok Heros already publishing ros_control plugin -->
   <!-- <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_ros_control.xacro" /> -->
