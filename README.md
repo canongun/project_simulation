@@ -6,7 +6,7 @@ ___Required packages:___
 
 [Universal Robots](https://github.com/ros-industrial/universal_robot/tree/melodic-devel)
 
-[Table Base](https://drive.google.com/drive/folders/100JuX8GpcT_u2RUbGYeqLP7rtylO5HOu?usp=sharing)
+[Table Base](https://drive.google.com/file/d/1c9ZnxWPkZuW1fpoFA4F0t_5Hy8A91uP6/view?usp=sharing)
 
 [Innok Heros](https://github.com/innokrobotics/innok_heros_description/tree/noetic)
 
