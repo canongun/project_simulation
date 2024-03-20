@@ -110,9 +110,8 @@
     <rosparam param="source_list">["joint_states", "/joint_states"]</rosparam> 
   </node>
 
-   
-  
-  
-
+  <param name="mobile_x" type="double" value="$(arg x_init_pose_mobile)"/>
+  <param name="mobile_y" type="double" value="$(arg y_init_pose_mobile)"/>
+  <param name="mobile_z" type="double" value="$(arg z_init_pose_mobile)"/>
 
 </launch>
