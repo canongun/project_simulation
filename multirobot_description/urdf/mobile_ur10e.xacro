@@ -30,7 +30,7 @@
     <update_rate>1</update_rate>   
   
   <!-- Include UR10e Arm -->
-  <xacro:property name="arm_position_x" value="0.45"/>
+  <xacro:property name="arm_position_x" value="0.42"/>
   <xacro:property name="arm_position_y" value="0"/>
   <xacro:property name="arm_position_z" value="0"/>
   <xacro:property name="arm_orientation_r" value="0"/>
