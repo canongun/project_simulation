@@ -22,9 +22,9 @@
     <group_state name="home" group="mobile_arm">
         <joint name="mobile_elbow_joint" value="1.5708"/>
         <joint name="mobile_shoulder_lift_joint" value="-2.3562"/>
-        <joint name="mobile_shoulder_pan_joint" value="-1.5708"/>
+        <joint name="mobile_shoulder_pan_joint" value="3.1415"/>
         <joint name="mobile_wrist_1_joint" value="-2.3562"/>
-        <joint name="mobile_wrist_2_joint" value="-1.5708"/>
+        <joint name="mobile_wrist_2_joint" value="0"/>
         <joint name="mobile_wrist_3_joint" value="0"/>
     </group_state>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
