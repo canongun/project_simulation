@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: multirobot_description
+    relative_path: urdf/mobile_ur10e.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/multirobot_mobile.srdf
+  CONFIG:
+    author_name: Can Ongun
+    author_email: canongun90@gmail.com
+    generated_timestamp: 1713342214

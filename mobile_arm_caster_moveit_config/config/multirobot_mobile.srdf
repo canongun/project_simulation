@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="multirobot_mobile">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="mobile_arm">
+        <joint name="mobile_shoulder_pan_joint"/>
+        <joint name="mobile_shoulder_lift_joint"/>
+        <joint name="mobile_elbow_joint"/>
+        <joint name="mobile_wrist_1_joint"/>
+        <joint name="mobile_wrist_2_joint"/>
+        <joint name="mobile_wrist_3_joint"/>
+        <chain base_link="mobile_base_link" tip_link="mobile_tool0"/>
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="home" group="mobile_arm">
+        <joint name="mobile_elbow_joint" value="1.5708"/>
+        <joint name="mobile_shoulder_lift_joint" value="-2.3562"/>
+        <joint name="mobile_shoulder_pan_joint" value="3.1415"/>
+        <joint name="mobile_wrist_1_joint" value="-2.3562"/>
+        <joint name="mobile_wrist_2_joint" value="0"/>
+        <joint name="mobile_wrist_3_joint" value="0"/>
+    </group_state>
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="custom_joint" type="fixed" parent_frame="mobile_base_link" child_link="mobile_base_link"/>
+    <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
+    <passive_joint name="joint_base_wheel_rear_left"/>
+    <passive_joint name="joint_base_wheel_rear_right"/>
+    <passive_joint name="caster_bot_joint"/>
+    <passive_joint name="caster_wheel_joint"/>
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="battery_box" link2="beam_link" reason="Adjacent"/>
+    <disable_collisions link1="battery_box" link2="caster_bot" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="caster_top" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="caster_wheel" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="drive_box_rear" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="mobile_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="mobile_shoulder_link" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="mounting_plate" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="battery_box" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="beam_link" link2="caster_bot" reason="Never"/>
+    <disable_collisions link1="beam_link" link2="caster_top" reason="Adjacent"/>
+    <disable_collisions link1="beam_link" link2="caster_wheel" reason="Never"/>
+    <disable_collisions link1="beam_link" link2="drive_box_rear" reason="Adjacent"/>
+    <disable_collisions link1="beam_link" link2="mobile_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="beam_link" link2="mobile_shoulder_link" reason="Never"/>
+    <disable_collisions link1="beam_link" link2="mounting_plate" reason="Adjacent"/>
+    <disable_collisions link1="beam_link" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="beam_link" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="caster_bot" link2="caster_top" reason="Adjacent"/>
+    <disable_collisions link1="caster_bot" link2="caster_wheel" reason="Adjacent"/>
+    <disable_collisions link1="caster_bot" link2="drive_box_rear" reason="Never"/>
+    <disable_collisions link1="caster_bot" link2="mobile_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="caster_bot" link2="mobile_shoulder_link" reason="Never"/>
+    <disable_collisions link1="caster_bot" link2="mounting_plate" reason="Never"/>
+    <disable_collisions link1="caster_bot" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="caster_bot" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="caster_wheel" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="drive_box_rear" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="mobile_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="mobile_shoulder_link" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="mounting_plate" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="caster_top" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="caster_wheel" link2="drive_box_rear" reason="Never"/>
+    <disable_collisions link1="caster_wheel" link2="mobile_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="caster_wheel" link2="mobile_shoulder_link" reason="Never"/>
+    <disable_collisions link1="caster_wheel" link2="mounting_plate" reason="Never"/>
+    <disable_collisions link1="caster_wheel" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="caster_wheel" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="drive_box_rear" link2="mobile_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="drive_box_rear" link2="mobile_shoulder_link" reason="Never"/>
+    <disable_collisions link1="drive_box_rear" link2="mounting_plate" reason="Never"/>
+    <disable_collisions link1="drive_box_rear" link2="wheel_rear_left" reason="Adjacent"/>
+    <disable_collisions link1="drive_box_rear" link2="wheel_rear_right" reason="Adjacent"/>
+    <disable_collisions link1="mobile_base_link_inertia" link2="mobile_shoulder_link" reason="Adjacent"/>
+    <disable_collisions link1="mobile_base_link_inertia" link2="mobile_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="mobile_base_link_inertia" link2="mounting_plate" reason="Adjacent"/>
+    <disable_collisions link1="mobile_base_link_inertia" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="mobile_base_link_inertia" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="mobile_forearm_link" link2="mobile_upper_arm_link" reason="Adjacent"/>
+    <disable_collisions link1="mobile_forearm_link" link2="mobile_wrist_1_link" reason="Adjacent"/>
+    <disable_collisions link1="mobile_shoulder_link" link2="mobile_upper_arm_link" reason="Adjacent"/>
+    <disable_collisions link1="mobile_shoulder_link" link2="mounting_plate" reason="Never"/>
+    <disable_collisions link1="mobile_shoulder_link" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="mobile_shoulder_link" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="mobile_wrist_1_link" link2="mobile_wrist_2_link" reason="Adjacent"/>
+    <disable_collisions link1="mobile_wrist_1_link" link2="mobile_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="mobile_wrist_2_link" link2="mobile_wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="mounting_plate" link2="wheel_rear_left" reason="Never"/>
+    <disable_collisions link1="mounting_plate" link2="wheel_rear_right" reason="Never"/>
+    <disable_collisions link1="wheel_rear_left" link2="wheel_rear_right" reason="Never"/>
+</robot>
