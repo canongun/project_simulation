@@ -3,6 +3,7 @@
 
   <xacro:arg name="wheel_kind" default="default" /> <!-- default | tractor | tractor_large -->
   <xacro:arg name="front_kind" default="4wd" /> <!-- swing_axle | caster | 4wd -->
+  <xacro:property name="wheel_type" value='$(arg front_kind)'/>
 
   <!-- heros base-->
   <xacro:include filename="$(find innok_heros_description)/urdf/innok_heros_universal.xacro"/>
@@ -15,6 +16,7 @@
 
   <!-- ROS plug-ins -->
   <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_joint_pub.xacro" />
+  <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_joint_caster_pub.xacro" />
 
   <!-- Internal Measurement Unit -->
   <xacro:include filename="$(find multirobot_description)/urdf/sensors/internal_measurement_unit.urdf.xacro"/>
@@ -30,13 +32,20 @@
     <update_rate>1</update_rate>   
   
   <!-- Include UR10e Arm -->
-  <xacro:property name="arm_position_x" value="0.42"/>
+  <xacro:if value="${wheel_type == '4wd'}">
+    <xacro:property name="arm_position_x" value="0.42"/>
+  </xacro:if>
+
+  <xacro:unless value="${wheel_type == '4wd'}">
+    <xacro:property name="arm_position_x" value="0.101"/>
+  </xacro:unless>
+
   <xacro:property name="arm_position_y" value="0"/>
   <xacro:property name="arm_position_z" value="0"/>
   <xacro:property name="arm_orientation_r" value="0"/>
   <xacro:property name="arm_orientation_p" value="0"/>
   <xacro:property name="arm_orientation_y" value="0"/>
-
+ 
   <xacro:arg name="prefix" default="mobile_" />
 
   <xacro:macro name="multirobot_mobile" params="prefix">
@@ -65,7 +74,15 @@
   </xacro:macro>
   
   <xacro:multirobot_mobile prefix="$(arg prefix)"/>
-  <xacro:mobile_arm_joint_pub/>
+
+  <xacro:if value="${wheel_type == '4wd'}">
+    <xacro:mobile_arm_joint_pub/>
+  </xacro:if>
+
+  <xacro:unless value="${wheel_type == '4wd'}">
+    <xacro:mobile_arm_joint_caster_pub/>
+  </xacro:unless>
+
   <!-- <xacro:mobile_arm_ros_control/> -->
 
 </robot>
