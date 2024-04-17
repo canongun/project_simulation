@@ -27,10 +27,11 @@
   <arg name="robot_model_mobile" default="$(optenv ROBOT_MODEL multirobot_mobile)"/>
   <arg name="robot_xacro_mobile" default="$(optenv ROBOT_XACRO mobile_ur10e.xacro)"/>
   <arg name="x_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_X -0.45)"/>
-  <arg name="y_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 1.5)"/>
+  <arg name="y_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 1.7)"/>
   <arg name="z_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Z 0.4)"/>
   <arg name="yaw_init_pose_mobile" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_YAW 0.0)"/>
   <arg name="robot_mobile" default="$(optenv ROBOT_NAME mobile)"/>
+  <arg name="front_kind" default="caster"/> <!-- swing_axle | caster | 4wd -->
 
   <!-- UR Robot Arm Fixed configuration-->
   <arg name="arm_prefix" default="$(arg prefix)arm"/>
@@ -77,12 +78,14 @@
 
   </group>
 
-  <!-- For 4wd, if you use other than 4wd look at the innok heros launch file -->
-  <rosparam file="$(find innok_heros_description)/config/heros_skid_steer.yaml" command="load"/>
+   <group if="$(eval arg('front_kind') == '4wd')">
+    <rosparam file="$(find innok_heros_description)/config/heros_skid_steer.yaml" command="load"/>
+  </group>
+  <rosparam file="$(find innok_heros_description)/config/heros_diff_drive.yaml" unless="$(eval arg('front_kind') == '4wd')" command="load"/>
 
   <!-- Mobile Robot Arm Parameter Initialization -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg robot_xacro_path)$(arg robot_xacro_mobile)' 
-              prefix:=$(arg prefix_mobile) "/>
+              prefix:=$(arg prefix_mobile) front_kind:=$(arg front_kind)"/>
   
   <!-- Spawn Mobile Robot Arm model into gazebo -->
   <node name="urdf_spawner_robot_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
