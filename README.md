@@ -14,6 +14,9 @@ ___Required packages:___
 
 [Gazebo Link Attacher Package](https://github.com/pal-robotics/gazebo_ros_link_attacher)
 
+[Robot Localization EKF](https://github.com/cra-ros-pkg/robot_localization.git)
+
+**Impotant:** It requires a package called GeographicLib, install from [here](https://geographiclib.sourceforge.io/C++/doc/install.html)
 
 __Usage of Packages__
 
