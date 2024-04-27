@@ -43,6 +43,11 @@
   <remap from="/innok_heros_velocity_controller/cmd_vel" to="/robot/cmd_vel"/>
   <remap from="/innok_heros_velocity_controller/odom" to="/robot/odom"/>
 
+  <!-- Load params to the parameter server -->
+  <param name="mobile_x" type="double" value="$(arg x_init_pose_mobile)"/>
+  <param name="mobile_y" type="double" value="$(arg y_init_pose_mobile)"/>
+  <param name="mobile_z" type="double" value="$(arg z_init_pose_mobile)"/>
+
   <!-- Launch gazebo -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find gazebo_ros_link_attacher)/worlds/test_attacher.world"/>
@@ -108,13 +113,14 @@
     "
     />
   
-
+  <!-- Start Joint State publisher -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >   
     <rosparam param="source_list">["joint_states", "/joint_states"]</rosparam> 
   </node>
 
-  <param name="mobile_x" type="double" value="$(arg x_init_pose_mobile)"/>
-  <param name="mobile_y" type="double" value="$(arg y_init_pose_mobile)"/>
-  <param name="mobile_z" type="double" value="$(arg z_init_pose_mobile)"/>
+  <!-- Start EKF package -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+    <rosparam command="load" file="$(find multirobot_gazebo)/config/ekf.yaml" />
+  </node>
 
 </launch>
