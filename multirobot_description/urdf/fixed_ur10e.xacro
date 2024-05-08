@@ -7,6 +7,9 @@
   <!-- UR10e Robot Arm -->
   <xacro:include filename="$(find ur_description)/urdf/inc/ur10e_macro.xacro" />  
 
+  <!-- Ground Truth plugin -->
+  <xacro:include filename="$(find multirobot_description)/urdf/sensors/ground_truth_fixed.xacro" />
+
   <!-- Cobot e30 Gripper -->
   <!-- <xacro:include filename="$(find cobotsmartgripe30_angled_description)/urdf/cobotsmartgripe30_angled.urdf.xacro" />   -->
 
