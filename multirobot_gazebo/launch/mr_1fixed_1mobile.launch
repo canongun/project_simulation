@@ -42,6 +42,7 @@
   <!-- Remapping the topic names -->
   <remap from="/innok_heros_velocity_controller/cmd_vel" to="/robot/cmd_vel"/>
   <remap from="/innok_heros_velocity_controller/odom" to="/robot/odom"/>
+  <remap from="/mobile/joint_states" to="/joint_states"/>
 
   <!-- Load params to the parameter server -->
   <param name="mobile_x" type="double" value="$(arg x_init_pose_mobile)"/>
