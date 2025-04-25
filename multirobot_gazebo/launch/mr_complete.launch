@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Simulation Configuration -->
+  <arg name="debug" default="false"/>
+  <arg name="paused" default="false"/>
+  <arg name="headless" default="false"/>
+  <arg name="gui" default="true"/>
+
+  <!-- Robot configuration -->
+  <arg name="robot_xacro_path" default="$(find multirobot_description)/urdf/"/>
+  <arg name="robot_xacro" default="$(optenv ROBOT_XACRO multirobot_two_UR10e_table.xacro)"/>
+  <arg name="robot_model" default="$(optenv ROBOT_MODEL multirobot)"/>
+  <arg name="x_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_X 0)"/>
+  <arg name="y_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Y 0)"/>
+  <arg name="z_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_Z 0)"/>
+  <arg name="yaw_init_pose" default="$(optenv ROBOT_SIM_GAZEBO_INIT_POSE_YAW 0.0)"/>
+  <arg name="robot_id" default="$(optenv ROBOT_ID robot)"/>
+
+  <!-- Launch gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find gazebo_ros_link_attacher)/worlds/test_attacher.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="paused" value="$(arg paused)" />
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg robot_xacro_path)$(arg robot_xacro)' "/>
+
+  <!-- Spawn model into gazebo -->
+  <node name="urdf_spawner_robot_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="-x $(arg x_init_pose) -y $(arg y_init_pose) -z $(arg z_init_pose) -Y $(arg yaw_init_pose) -urdf -param robot_description -model $(arg robot_id)" />
+
+  <!-- publish tfs through the robot_state_publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />    
+
+  <!-- Arm Controllers -->
+  <rosparam file="$(find multirobot_control)/config/ur_control.yaml" command="load" subst_value="true"/>  
+
+  <node name="robot_arm_trajectory_controller" pkg="controller_manager" type="controller_manager" output="screen" 
+        args="
+            spawn
+            arm1/scaled_pos_traj_controller
+            arm2/scaled_pos_traj_controller
+        "
+  /> 
+
+  <node name="joint_state_publisher_arm" pkg="joint_state_publisher" type="joint_state_publisher" >   
+	    <rosparam param="source_list">["joint_states", "/joint_states"]</rosparam> 
+  </node>
+  
+</launch>

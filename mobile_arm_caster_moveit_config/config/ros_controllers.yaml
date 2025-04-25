@@ -1,0 +1,11 @@
+controller_list:
+- name: "/scaled_pos_traj_controller"
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  joints:
+    - mobile_shoulder_pan_joint
+    - mobile_shoulder_lift_joint
+    - mobile_elbow_joint
+    - mobile_wrist_1_joint
+    - mobile_wrist_2_joint
+    - mobile_wrist_3_joint

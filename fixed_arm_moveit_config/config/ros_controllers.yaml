@@ -1,0 +1,11 @@
+controller_list:
+- name: "/fixed/scaled_pos_traj_controller"
+  action_ns: follow_joint_trajectory
+  type: FollowJointTrajectory
+  joints:
+    - fixed_shoulder_pan_joint
+    - fixed_shoulder_lift_joint
+    - fixed_elbow_joint
+    - fixed_wrist_1_joint
+    - fixed_wrist_2_joint
+    - fixed_wrist_3_joint

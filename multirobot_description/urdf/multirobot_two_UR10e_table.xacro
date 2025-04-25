@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<robot name="multirobot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Table Base -->
+  <xacro:include filename="$(find table_description)/urdf/table_description.urdf.xacro"/>
+  
+  <!-- UR10e Robot Arm -->
+  <xacro:include filename="$(find ur_description)/urdf/inc/ur10e_macro.xacro"/>
+
+  <xacro:include filename="$(find multirobot_description)/urdf/ROS/mr_joint_pub.xacro" />
+  <xacro:include filename="$(find multirobot_description)/urdf/ROS/mr_ros_control.xacro" />
+
+  <!-- Include UR10e Arm -->
+  <xacro:property name="arm1_position_x" value="0.25"/>
+  <xacro:property name="arm1_position_y" value="-0.45"/>
+  <xacro:property name="arm1_position_z" value="0.87"/>
+  <xacro:property name="arm1_orientation_r" value="0"/>
+  <xacro:property name="arm1_orientation_p" value="0"/>
+  <xacro:property name="arm1_orientation_y" value="0"/>
+
+  <xacro:property name="arm2_position_x" value="-0.25"/>
+  <xacro:property name="arm2_position_y" value="0.45"/>
+  <xacro:property name="arm2_position_z" value="0.87"/>
+  <xacro:property name="arm2_orientation_r" value="0"/>
+  <xacro:property name="arm2_orientation_p" value="0"/>
+  <xacro:property name="arm2_orientation_y" value="0"/>
+
+  <xacro:macro name="multirobot">
+
+    <!-- Arm1 -->
+    <joint name="arm1_base_joint" type="fixed">
+      <origin xyz="${arm1_position_x} ${arm1_position_y} ${arm1_position_z}" rpy="${arm1_orientation_r} ${arm1_orientation_p} ${arm1_orientation_y}"/>
+      <parent link="table_base_link" />
+      <child link="arm1_base_link" />
+    </joint>
+
+    <xacro:ur10e_robot prefix="arm1_">
+    </xacro:ur10e_robot>
+
+    <!-- Arm2 -->
+    <joint name="arm2_base_joint" type="fixed">
+      <origin xyz="${arm2_position_x} ${arm2_position_y} ${arm2_position_z}" rpy="${arm2_orientation_r} ${arm2_orientation_p} ${arm2_orientation_y}"/>
+      <parent link="table_base_link" />
+      <child link="arm2_base_link" />
+    </joint>
+
+    <xacro:ur10e_robot prefix="arm2_">
+    </xacro:ur10e_robot>
+    
+  </xacro:macro>
+
+  <xacro:multirobot/>
+  <xacro:mr_joint_pub/>
+  <xacro:mr_ros_control/>
+  
+</robot>

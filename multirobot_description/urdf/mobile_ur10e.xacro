@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<robot name="multirobot_mobile" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="wheel_kind" default="default" /> <!-- default | tractor | tractor_large -->
+  <xacro:arg name="front_kind" default="4wd" /> <!-- swing_axle | caster | 4wd -->
+  <xacro:property name="wheel_type" value='$(arg front_kind)'/>
+
+  <!-- heros base-->
+  <xacro:include filename="$(find innok_heros_description)/urdf/innok_heros_universal.xacro"/>
+
+  <!-- UR10e Robot Arm -->
+  <xacro:include filename="$(find ur_description)/urdf/inc/ur10e_macro.xacro" />  
+
+  <!-- Cobot e30 Gripper -->
+  <!-- <xacro:include filename="$(find cobotsmartgripe30_angled_description)/urdf/cobotsmartgripe30_angled.urdf.xacro" />   -->
+
+  <!-- ROS plug-ins -->
+  <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_joint_pub.xacro" />
+  <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_joint_caster_pub.xacro" />
+
+  <!-- Internal Measurement Unit -->
+  <xacro:include filename="$(find multirobot_description)/urdf/sensors/internal_measurement_unit.urdf.xacro"/>
+  
+  <!-- Innok Heros already publishing ros_control plugin -->
+  <!-- <xacro:include filename="$(find multirobot_description)/urdf/ROS/mobile_arm_ros_control.xacro" /> -->
+
+  <!-- Ground Truth plugin -->
+  <xacro:include filename="$(find multirobot_description)/urdf/sensors/ground_truth.xacro" />
+
+  <!-- Innok Base -->
+  <xacro:innok_heros front_kind='$(arg front_kind)' wheel_kind='$(arg wheel_kind)'/>
+    <update_rate>1</update_rate>   
+  
+  <!-- Include UR10e Arm -->
+  <xacro:if value="${wheel_type == '4wd'}">
+    <xacro:property name="arm_position_x" value="0.42"/>
+  </xacro:if>
+
+  <xacro:unless value="${wheel_type == '4wd'}">
+    <xacro:property name="arm_position_x" value="0.101"/>
+  </xacro:unless>
+
+  <xacro:property name="arm_position_y" value="0"/>
+  <xacro:property name="arm_position_z" value="0"/>
+  <xacro:property name="arm_orientation_r" value="0"/>
+  <xacro:property name="arm_orientation_p" value="0"/>
+  <xacro:property name="arm_orientation_y" value="0"/>
+ 
+  <xacro:arg name="prefix" default="mobile_" />
+
+  <xacro:macro name="multirobot_mobile" params="prefix">
+
+    
+    <!-- UR10e Robot Arm    -->
+    <xacro:ur10e_robot prefix="${prefix}" 
+      kinematics_parameters_file="$(find multirobot_control)/config/calibration/ur10e_calibration.yaml"
+      joint_limits_parameters_file="$(find multirobot_control)/config/calibration/ur10e_joint_limits.yaml">
+    </xacro:ur10e_robot>
+
+    <joint name="${prefix}base_joint" type="fixed">
+      <origin xyz="${arm_position_x} ${arm_position_y} ${arm_position_z}" rpy="${arm_orientation_r} ${arm_orientation_p} ${arm_orientation_y}"/>
+      <parent link="mounting_plate" />
+      <child link="${prefix}base_link" />
+    </joint>
+    
+
+    <!-- <joint name="tool_controller_fake_joint" type="fixed">
+    <parent link="$(arg prefix)tool0"/>
+    <child link="gripper_base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1" />
+    </joint> -->
+
+  </xacro:macro>
+  
+  <xacro:multirobot_mobile prefix="$(arg prefix)"/>
+
+  <xacro:if value="${wheel_type == '4wd'}">
+    <xacro:mobile_arm_joint_pub/>
+  </xacro:if>
+
+  <xacro:unless value="${wheel_type == '4wd'}">
+    <xacro:mobile_arm_joint_caster_pub/>
+  </xacro:unless>
+
+  <!-- <xacro:mobile_arm_ros_control/> -->
+
+</robot>
